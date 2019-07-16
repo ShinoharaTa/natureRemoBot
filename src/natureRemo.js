@@ -27,6 +27,24 @@ module.exports = class {
         return devices
     }
 
+    async getAppliances() {
+        let config = process.CoreConfig
+
+        let ops = {
+            uri: "https://api.nature.global/1/appliances",
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + config.natureremo
+            }
+        }
+        let devices = await utils.getO(ops)
+        if(devices.error)
+            return
+
+        return devices
+    }
+
     async updateActivity(data) {
         let client = process.Core.client
 
