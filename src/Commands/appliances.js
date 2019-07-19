@@ -22,34 +22,28 @@ module.exports = class extends Command {
         let config = process.CoreConfig
 
         let devices = await natureRemo.getAppliances()
-        for (const i in devices) {
+        // console.log(devices)
+        devices.forEach(device => {
+            let name = device.nickname;
+            let val = "1";
+            switch (device.type) {
+                case "AC":
+                    // console.log(device.aircon.range)
+                    // name = "エアコン"
+                    val = "状態：" + device.settings.button
+                    break
+                case "LIGHT":
+                    // name += " :flashlight:"
+                    val = "電源：" + device.light.state.power
+                    break
+                default:
+            }
             embed.fields.push({
-                name: "name",
-                value: devices[i].name
+                name: name,
+                value: val,
+                inline: true
             })
-            // Object.keys(devices[i].newest_events).forEach(key => {
-            //     let name
-            //     let val = devices[i].newest_events[key].val
-            //     switch (key) {
-            //         case "te":
-            //             name = "温度"
-            //             val += " 度"
-            //             break
-            //         case "hu":
-            //             name = "湿度"
-            //             val += " %"
-            //             break
-            //         case "il":
-            //             name = "照度"
-            //             break
-            //         default:
-            //     }
-            //     embed.fields.push({
-            //         name: name,
-            //         value: val
-            //     })
-            // })
-        }
+        });
 
         message.channel.send(message.author, { embed: embed })
         this.good(message)

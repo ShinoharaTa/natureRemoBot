@@ -23,30 +23,28 @@ module.exports = class extends Command {
 
         let devices = await natureRemo.getDevices()
         for (const i in devices) {
-            embed.fields.push({
-                name: "name",
-                value: devices[i].name
-            })
+            // embed.fields.push({
+            //     name: "name",
+            //     value: devices[i].name
+            // })
             Object.keys(devices[i].newest_events).forEach(key => {
-                let name
-                let val = devices[i].newest_events[key].val
+                let name = devices[i].name
+                let val = ""
                 switch (key) {
                     case "te":
-                        name = "温度"
-                        val += " 度"
+                        val += ":thermometer:：" + devices[i].newest_events[key].val + " 度　"
                         break
                     case "hu":
-                        name = "湿度"
-                        val += " %"
+                            val += ":cloud_rain:：" + devices[i].newest_events[key].val + " %　"
                         break
                     case "il":
-                        name = "照度"
+                            val += ":flashlight:：" + devices[i].newest_events[key].val + " val"
                         break
                     default:
                 }
                 embed.fields.push({
                     name: name,
-                    value: val
+                    value: val,
                 })
             })
         }
